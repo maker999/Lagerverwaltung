@@ -1,7 +1,7 @@
 import java.util.*;
 package prüfung_24_10_2018;
 
-public static class StorageManager<T> {
+public class StorageManager<T extends StorageCompartment> {
 	public Collection<T> storageCompartments = new Collection<T> ;
 	
 	public StorageManager(){
@@ -33,15 +33,19 @@ public static class StorageManager<T> {
 		}
 	}
 	
-	public boolean storeObject(Storable additionalObject){
+	public boolean storeObject(Storable additionalObject) throws NotStorableException{
 		Iterator<T> itr = storageCompartments.iterator();
 		while(itr.hasNext()){
 			Object sc = itr.next();
-			if( sc.checkWidth(additionalObject) && 
-					sc.checkWeight(additionalObject) ){
+			try{
 				sc.storeObject(additionalObject);
-				return true;
 			}
+			catch(NotStorableException E)
+			{
+				E.getMessage();
+				continue;
+			}
+			return true;
 		}
 		return false;
 	}
