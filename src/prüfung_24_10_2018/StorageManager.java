@@ -1,8 +1,8 @@
-import java.util.*;
 package prüfung_24_10_2018;
+import java.util.*;
 
 public class StorageManager<T extends StorageCompartment> {
-	public Collection<T> storageCompartments = new Collection<T> ;
+	public Collection<T> storageCompartments = new ArrayList<T>() ;
 	
 	public StorageManager(){
 		
@@ -13,39 +13,56 @@ public class StorageManager<T extends StorageCompartment> {
 	}
 	
 	public Optional<T> findCompartmentByMetric(){
-		
+		Optional<T> ret = Optional.empty();
+		float worstMetric = 0;
+		Iterator<T> itr = storageCompartments.iterator();
+		while(itr.hasNext()){
+			T sc = itr.next();
+			if(this.storageCompartments.isEmpty()){
+				continue;
+			}else{
+				float currentMetric = 2*( sc.getMaxWeight() - sc.calculateSumOfWeights() ) + ( sc.getMaxWidth() - sc.calculateSumOfWidth() );
+				if(worstMetric < currentMetric){
+					worstMetric = currentMetric;
+					ret = Optional.of(sc);
+				}
+			}
+		}
+		return ret;
 	}
 	
-	public void main(String[] args){
+	public static void main(String[] args){
 		run();
 	}
 	
-	public void run(){
-		StorageManager sm = new StorageManager<StorageCompartment>();
-		DeafultCompartment compA;
-		CooledCoampartment compB;
-		CooledObject fish;
+	public static void run(){
+		StorageManager<StorageCompartment> sm = new StorageManager<StorageCompartment>();
+		StorageCompartment compA = new DefaultCompartment( 26, 50); 
+		StorageCompartment compB = new CooledCompartment( 100, 10, -3);
+		Storable fish = new CooledObject(1,2,-2);
+		Storable icecream = new CooledObject(2,2, -2);
 		sm.addCompartment(compA);
 		sm.addCompartment(compB);
-		sm.storeObject(fish);
-		for(){
-			compB.
-		}
+		if(sm.storeObject(fish)) System.out.println("stored succesfully");
+		else System.out.println("storing failed");
 	}
 	
-	public boolean storeObject(Storable additionalObject) throws NotStorableException{
-		Iterator<T> itr = storageCompartments.iterator();
-		while(itr.hasNext()){
-			Object sc = itr.next();
+	public boolean storeObject(Storable additionalObject){
+		//Iterator<T> itr = storageCompartments.iterator();
+		//while(itr.hasNext()){
+			//T sc = itr.next();
+		for(T sc: storageCompartments){
 			try{
 				sc.storeObject(additionalObject);
+				return true;
 			}
 			catch(NotStorableException E)
 			{
-				E.getMessage();
+				E = new NotStorableException(sc, additionalObject);
+				System.out.println(E.getMessage());
 				continue;
 			}
-			return true;
+			
 		}
 		return false;
 	}
