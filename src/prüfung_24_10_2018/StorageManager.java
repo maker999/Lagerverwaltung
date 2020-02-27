@@ -9,7 +9,7 @@ public class StorageManager<T extends StorageCompartment> {
 	}
 	
 	public void addCompartment(T compartment){
-		
+		this.storageCompartments.add(compartment);
 	}
 	
 	public Optional<T> findCompartmentByMetric(){
@@ -39,10 +39,10 @@ public class StorageManager<T extends StorageCompartment> {
 		StorageManager<StorageCompartment> sm = new StorageManager<StorageCompartment>();
 		StorageCompartment compA = new DefaultCompartment( 26, 50); 
 		StorageCompartment compB = new CooledCompartment( 100, 10, -3);
-		Storable fish = new CooledObject(1,2,-2);
+		Storable fish = new CooledObject(2,2,-2);
 		Storable icecream = new CooledObject(2,2, -2);
 		sm.addCompartment(compA);
-		sm.addCompartment(compB);
+		//sm.addCompartment(compB);
 		if(sm.storeObject(fish)) System.out.println("stored succesfully");
 		else System.out.println("storing failed");
 	}
@@ -52,9 +52,10 @@ public class StorageManager<T extends StorageCompartment> {
 		//while(itr.hasNext()){
 			//T sc = itr.next();
 		for(T sc: storageCompartments){
+			//System.out.println("kiir");
 			try{
 				sc.storeObject(additionalObject);
-				return true;
+				
 			}
 			catch(NotStorableException E)
 			{
@@ -63,6 +64,7 @@ public class StorageManager<T extends StorageCompartment> {
 				continue;
 			}
 			
+			return true;
 		}
 		return false;
 	}

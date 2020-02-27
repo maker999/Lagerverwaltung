@@ -10,7 +10,7 @@ public class CooledCompartment extends StorageCompartment{
 		if(super.checkWeight(storable) && 
 				super.checkWidth(storable) && 
 				storable.getType() == StorageType.COOLED &&
-				((CooledObject) storable).getRequiredTemperature() >= this.targetTemperature)
+				(((CooledObject) storable).getRequiredTemperature() == this.targetTemperature) )
 		{
 				super.storeObject(storable);			
 		}else throw new NotStorableException(this ,storable);
