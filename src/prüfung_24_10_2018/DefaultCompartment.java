@@ -7,8 +7,9 @@ public class DefaultCompartment extends StorageCompartment{
 		// TODO Auto-generated constructor stub
 	}
 	public void storeObject(Storable storable) throws NotStorableException{
+		System.out.println("def");
 		if(super.checkWeight(storable) && 
-				super.checkWidth(storable))
+				super.checkWidth(storable) && storable.getType()==StorageType.DEFAULT )
 		{
 				super.storeObject(storable);			
 		}else throw new NotStorableException(this ,storable);

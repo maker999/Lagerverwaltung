@@ -39,20 +39,21 @@ public class StorageManager<T extends StorageCompartment> {
 		StorageManager<StorageCompartment> sm = new StorageManager<StorageCompartment>();
 		StorageCompartment compA = new DefaultCompartment( 26, 50); 
 		StorageCompartment compB = new CooledCompartment( 100, 10, -3);
-		Storable fish = new CooledObject(2,2,-2);
+		Storable fish = new CooledObject(2,2,-3);
 		Storable icecream = new CooledObject(2,2, -2);
 		sm.addCompartment(compA);
-		//sm.addCompartment(compB);
-		if(sm.storeObject(fish)) System.out.println("stored succesfully");
+		sm.addCompartment(compB);
+		if(sm.storeObject(fish)) System.out.println("fish stored succesfully");
+		else System.out.println("storing failed");
+		if(sm.storeObject(icecream)) System.out.println("ice-cream stored succesfully");
 		else System.out.println("storing failed");
 	}
 	
 	public boolean storeObject(Storable additionalObject){
-		//Iterator<T> itr = storageCompartments.iterator();
-		//while(itr.hasNext()){
-			//T sc = itr.next();
-		for(T sc: storageCompartments){
-			//System.out.println("kiir");
+		Iterator<T> itr = storageCompartments.iterator();
+		while(itr.hasNext()){
+			T sc = itr.next();
+		//for(T sc: storageCompartments){
 			try{
 				sc.storeObject(additionalObject);
 				

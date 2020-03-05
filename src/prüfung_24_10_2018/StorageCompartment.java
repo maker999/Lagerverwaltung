@@ -34,6 +34,7 @@ public class StorageCompartment {
 		return sum;
 	}
 	public void storeObject(Storable storable) throws NotStorableException{
+		System.out.println("kiir");
 		this.storedObjects.add(storable);
 	}
 	public void storeObject(Collection<Storable> storables){

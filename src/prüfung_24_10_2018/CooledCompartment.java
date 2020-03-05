@@ -7,10 +7,11 @@ public class CooledCompartment extends StorageCompartment{
 		this.targetTemperature = targetTemperature;
 	}
 	public void storeObject(Storable storable) throws NotStorableException{
+		System.out.println("sard");
 		if(super.checkWeight(storable) && 
 				super.checkWidth(storable) && 
 				storable.getType() == StorageType.COOLED &&
-				(((CooledObject) storable).getRequiredTemperature() == this.targetTemperature) )
+				(((CooledObject) storable).getRequiredTemperature() >= this.targetTemperature) )
 		{
 				super.storeObject(storable);			
 		}else throw new NotStorableException(this ,storable);
